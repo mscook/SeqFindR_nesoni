@@ -117,8 +117,8 @@ def core(args):
             if args.paired:
                 r1 = reads[i].split('/')[-1].strip()
                 r2 = reads[i + 1].split('/')[-1].strip()
-                fout.write("cp " + r1 + " .\n")
-                fout.write("cp " + r2 + " .\n")
+                fout.write("cp " + reads[i].strip() + " .\n")
+                fout.write("cp " + reads[i + 1].strip() + " .\n")
                 fout.write("nesoni analyse-sample: " + ids[counter] + " " + ref + " pairs: " + r1.split(
                     '/')[-1] + " " + r2.split('/')[-1] + "  --make-cores " + args.cores + 
                     " filter: --monogamous no --random yes\n")
@@ -130,7 +130,7 @@ def core(args):
                 i = i + 2
             else:
                 r = reads[i].strip()
-                fout.write("cp " + r + " .\n")
+                fout.write("cp " + reads[i].strip() + " .\n")
                 fout.write("nesoni analyse-sample: " + ids[i] + " " + ref + " interleaved: " + r.split(
                     '/')[-1] + "  --make-cores " + args.cores + 
                     " filter: --monogamous no  --random yes\n")
