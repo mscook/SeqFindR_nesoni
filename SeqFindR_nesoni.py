@@ -110,7 +110,7 @@ def core(args):
     ref = args.reference_dir.split('/')[-1].strip()
     # Build the analysis scripts
     i, counter = 0, 0
-    while i < num_reads:
+    while i < len(reads):
         with open("nesoni_SeqFindR." + str(counter + 1), "w") as fout:
             fout.write("cd $TMPDIR\n")
             fout.write("cp -r " + args.reference_dir + " .\n")
