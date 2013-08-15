@@ -2,6 +2,7 @@ Generate mapping consensus data for SeqFindR
 ============================================
 
 Generate PBS jobs given the inputs to SeqFindR_nesoni and submits the jobs.
+This is to complement SeqFindR (https://github.com/mscook/SeqFindR)
 
 Assumes
     * Have access to a cluster running PBSPro,
@@ -38,7 +39,25 @@ For paired (-p)::
     /path/to/ry_1.compression
     /path/to/ry_2.compression
     /path/to/rz_1.compression
-    /path/to/rz_1.compression
+    /path/to/rz_2.compression
+
+
+Defining the read identifier
+----------------------------
+
+**Without the -l flag** the read ID's will become - rx, ry, and rz 
+respectively. 
+
+For cases where you have reads that look like this::
+
+    /path/to/rubbish_rx_1_more_rubbish.compression
+    /path/to/rubbish_rx_2_more_rubbish.compression
+    /path/to/rubbish_ry_1_more_rubbish.compression
+    /path/to/rubbish_ry_2_more_rubbish.compression
+    /path/to/rubbish_rz_1_more_rubbish.compression
+    /path/to/rubbish_rz_1_more_rubbish.compression
+
+you can use the -l flag **(-l 2)** in this case to get rx, ry, and rz.
 
 
 Usage
@@ -46,10 +65,11 @@ Usage
 
 Something like this::
     
-    ./SeqFindR_nesoni -h
-    usage: SeqFindR_nesoni [-h] [-v] [--version] [-p] [-i] [-d DELIM] [-c CORES]
-                           [-m MEMORY]
-                           reads_file output_base reference_dir
+    $ ./SeqFindR_nesoni.py -h
+
+    usage: SeqFindR_nesoni.py [-h] [-v] [--version] [-p] [-i] [-d DELIM]
+                              [-l IDENT_LOC] [-c CORES] [-m MEMORY]
+                              reads_file output_base reference_dir
 
     SeqFindR_nesoni v0.1 - Generate a nesoni run for SeqFindR
 
@@ -67,6 +87,8 @@ Something like this::
       -i, --interleaved     Interleaved reads [Default = True]
       -d DELIM, --delim DELIM
                             Reads delimiter [Default = _ ]
+      -l IDENT_LOC, --ident_loc IDENT_LOC
+                            Reads identifier location [Default = 1 ]
       -c CORES, --cores CORES
                             CPU cores [Default = 4]
       -m MEMORY, --memory MEMORY

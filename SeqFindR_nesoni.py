@@ -50,7 +50,7 @@ def get_read_ids(args):
         if args.paired:
             reads = reads[0::2]
         for e in reads:
-            ids.append(e.split('/')[-1].split(args.delim)[0])
+            ids.append(e.split('/')[-1].split(args.delim)[int(args.ident_loc)-1])
     return ids, len(reads), ori
 
 
@@ -164,6 +164,9 @@ if __name__ == '__main__':
         parser.add_argument('-d', '--delim', action='store',
                             default='_', help=('Reads delimiter '
                                                     '[Default = _ ]'))
+        parser.add_argument('-l', '--ident_loc', action='store',
+                            default=1, help=('Reads identifier location '
+                                                    '[Default = 1 ]'))
         parser.add_argument('-c', '--cores', action='store',
                             default='4', help=('CPU cores '
                                                     '[Default = 4]'))
