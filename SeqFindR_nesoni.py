@@ -44,7 +44,7 @@ def get_read_ids(args):
     Return - list of strain IDs, the number of reads and the list of read paths
     """
     ids = []
-    with open(os.path.expanduser(args.reads_file)) as fin:
+    with open(args.reads_file) as fin:
         reads = fin.readlines()
         ori = reads[:]
         if args.paired:
@@ -96,18 +96,20 @@ def core(args):
     """
     Generate a PBSPro jobarray for a SeqFindR nesoni run
     """
+    args.reads_file = os.path.abspath(os.path.expanduser(args.reads_file))
     if args.paired:
         args.interleaved = False
     ids, num_reads, reads = get_read_ids(args)
-    # Make output dir...
-    args.output_base = os.path.abspath(os.path.expanduser(args.output_base))
-    init_output_dir(args.output_base)
+    # Work reference
     args.reference_dir = os.path.abspath(
         os.path.expanduser(args.reference_dir))
     # Tidy up refernce dir and get id
     if args.reference_dir.endswith('/'):
         args.reference_dir = reference_dir[:-1]
     ref = args.reference_dir.split('/')[-1].strip()
+    # Make output dir...
+    args.output_base = os.path.abspath(os.path.expanduser(args.output_base))
+    init_output_dir(args.output_base)
     # Build the analysis scripts
     i, counter = 0, 0
     while i < len(reads):
