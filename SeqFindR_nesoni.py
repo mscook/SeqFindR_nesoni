@@ -91,7 +91,6 @@ def submit(script):
     """
     os.system("qsub " + script)
 
-
 def core(args):
     """
     Generate a PBSPro jobarray for a SeqFindR nesoni run
@@ -124,11 +123,8 @@ def core(args):
                 fout.write("nesoni analyse-sample: " + ids[counter] + " " + ref + " pairs: " + r1.split(
                     '/')[-1] + " " + r2.split('/')[-1] + "  --make-cores " + args.cores + 
                     " filter: --monogamous no --random yes\n")
-                fout.write("cd " + ids[counter] + " && shopt -s extglob "
-                           "&& rm !(consensus.fa) && mv "
-                           "consensus.fa " + ids[counter] + "_cons.fa && cd ..\n")
-                fout.write(
-                    "cp -r " + ids[counter] + " " + args.output_base + "\n")
+                fout.write("cd " + ids[counter] + " && mv "
+                           "consensus.fa " + os.path.join(args.output_base, ids[counter]+"_consensus.fa") + "\n")
                 i = i + 2
             else:
                 r = reads[i].strip()
@@ -136,10 +132,8 @@ def core(args):
                 fout.write("nesoni analyse-sample: " + ids[i] + " " + ref + " interleaved: " + r.split(
                     '/')[-1] + "  --make-cores " + args.cores + 
                     " filter: --monogamous no  --random yes\n")
-                fout.write("cd " + ids[i] + " && shopt -s extglob "
-                           "&& rm !(consensus.fa) && mv "
-                           "consensus.fa " + ids[i] + "_cons.fa && cd ..\n")
-                fout.write("cp -r " + ids[i] + " " + args.output_base + "\n")
+                fout.write("cd " + ids[counter] + " && mv "
+                           "consensus.fa " + os.path.join(args.output_base, ids[counter]+"_consensus.fa") + "\n")
                 i = i + 1
         st = os.stat("nesoni_SeqFindR." + str(counter + 1))
         os.chmod(
